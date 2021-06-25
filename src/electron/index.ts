@@ -5,9 +5,9 @@ import path from "path";
 require('electron-reload')(__dirname);
 
 let mainWindow:BrowserWindow;
-let notification: Notification;
+// let notification: Notification;
 
-autoUpdater.checkForUpdates();
+// autoUpdater.checkForUpdates();
 
 const createWindow  = () => { 
     mainWindow = new BrowserWindow({
@@ -58,28 +58,47 @@ ipcMain.on('requestVersionNumber', async (event, message) => {
 });
 
 
-autoUpdater.on("update-available", () => {
-    notification = new Notification({
-        title: "Svelte App",
-        body: "Updates are available. Click to download.",
-        silent: true,
+ipcMain.on('checkForUpdate', async (event, message) => {
+    autoUpdater.autoDownload = false;
+    autoUpdater.checkForUpdates();
+});
 
-    });
-    notification.show();
-    notification.on("click", () => {
-            autoUpdater.downloadUpdate();
-    });
+ipcMain.on('startDownloadUpdate', async (event, message) => {
+    autoUpdater.downloadUpdate();
+});
+
+ipcMain.on('quitAndInstall', async (event, message) => {
+    autoUpdater.quitAndInstall();
+});
+
+
+autoUpdater.on('checking-for-update', () => {
+    mainWindow.webContents.send("checkingForUpdate", null);
+});
+autoUpdater.on('error', (err) => {
+    console.log(err);
+});
+
+autoUpdater.on("update-available", (info) => {
+    console.log(info);
+    mainWindow.webContents.send("updateAvailable", info);
 });
   
-  
-autoUpdater.on("update-downloaded", () => {
-    notification = new Notification({
-        title: "Svelte App",
-        body: "The updates are ready. Click to quit and install.",
-        silent: true,
-    });
-    notification.show();
-    notification.on("click", () => {
-        autoUpdater.quitAndInstall();
-    });
+autoUpdater.on("update-not-available", (info) => {
+    console.log(info)
+    mainWindow.webContents.send("updateNotAvailable", info);
+})
+
+autoUpdater.on('download-progress', (progressObj) => {
+    let log_message = "Download speed: " + progressObj.bytesPerSecond;
+    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+    console.log(log_message);
+    mainWindow.webContents.send("downloadProgress", progressObj);
+})
+
+autoUpdater.on("update-downloaded", (info) => {
+    console.log(info);
+    mainWindow.webContents.send("updateDownloaded", info);
 });
+
