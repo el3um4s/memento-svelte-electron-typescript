@@ -4,7 +4,7 @@
   "description": "Memento: how to use Svelte with Electron and TypeScript",
   "author": "Samuele de Tomasi <samuele@stranianelli.com>",
   "license": "MIT",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/index.js",
   "scripts": {
     "nodemon": "nodemon",

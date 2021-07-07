@@ -9,31 +9,29 @@
 
     let downloadMessage:string = "";
 
-    globalThis.api.send("requestVersionNumber", null);
+    globalThis.api.updaterInfo.send("requestVersionNumber", null);
 
-    globalThis.api.receive("getVersionNumber", (data) => {
+    globalThis.api.updaterInfo.receive("getVersionNumber", (data) => {
         version = data.version;
-        // checkingForUpdate = true;
-        // globalThis.api.send("checkForUpdate", {version});
     });
 
     function check() {
         checkingForUpdate = true;
-        globalThis.api.send("checkForUpdate", {version});
+        globalThis.api.updaterInfo.send("checkForUpdate", {version});
     }
 
-    globalThis.api.receive("checkingForUpdate", (data) => {
+    globalThis.api.updaterInfo.receive("checkingForUpdate", (data) => {
         checkingForUpdate = true;
         console.log("checkingForUpdate");
     });
 
-    globalThis.api.receive("updateAvailable", (data) => {
+    globalThis.api.updaterInfo.receive("updateAvailable", (data) => {
         checkingForUpdate = false;
         updateAvailable = true;
         console.log(data);
     });
        
-    globalThis.api.receive("updateNotAvailable", (data) => {
+    globalThis.api.updaterInfo.receive("updateNotAvailable", (data) => {
         checkingForUpdate = false;
         updateAvailable = false;
         updateNotAvailable = true;
@@ -41,31 +39,31 @@
     });
 
     function startDownloadUpdate() {
-        globalThis.api.send("startDownloadUpdate", null);
+        globalThis.api.updaterInfo.send("startDownloadUpdate", null);
         updateAvailable = false;
         downloading = true;
     }
 
-    globalThis.api.receive("downloadProgress", (data) => {
+    globalThis.api.updaterInfo.receive("downloadProgress", (data) => {
         downloading = true;
         updateAvailable = false;
         let log_message = "Download speed: " + data.bytesPerSecond;
         log_message = log_message + ' - Downloaded ' + data.percent + '%';
         log_message = log_message + ' (' + data.transferred + "/" + data.total + ')';
-        console.log(log_message);
-        console.log(data);
+        // console.log(log_message);
+        // console.log(data);
         downloadMessage = log_message;
     });
 
-    globalThis.api.receive("updateDownloaded", (data) => {
+    globalThis.api.updaterInfo.receive("updateDownloaded", (data) => {
         downloading = false;
         updateAvailable = false;
         quitAndInstall = true;
-        console.log(data);
+        // console.log(data);
     });
 
     function install() {
-        globalThis.api.send("quitAndInstall", null);
+        globalThis.api.updaterInfo.send("quitAndInstall", null);
         quitAndInstall = false;
     }
 </script>

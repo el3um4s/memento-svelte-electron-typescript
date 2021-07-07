@@ -1,6 +1,6 @@
 <script lang="ts">
-	import InfoElectron from "./Components/InfoElectron.svelte";
 	import Version from "./Components/Version.svelte";
+	import InfoElectron from "./Components/InfoElectron.svelte";
 
 	export let name: string;
 </script>

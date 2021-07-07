@@ -1,61 +1,18 @@
-import { app, BrowserWindow, ipcMain, Notification } from 'electron';
+import { app, ipcMain } from 'electron';
 import { autoUpdater } from "electron-updater";
-import path from "path";
+import mainWindow from "./mainWindow";
+
+import * as systemInfo from "./IPC/systemInfo";
 
 require('electron-reload')(__dirname);
 
-let mainWindow:BrowserWindow;
-// let notification: Notification;
+// https://blog.logrocket.com/electron-ipc-response-request-architecture-with-typescript/
+// https://davembush.medium.com/typescript-and-electron-the-right-way-141c2e15e4e1
 
-// autoUpdater.checkForUpdates();
-
-const createWindow  = () => { 
-    mainWindow = new BrowserWindow({
-        width: 854,
-        height: 480,
-        webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: true,
-            enableRemoteModule: true,
-            preload: path.join(__dirname, "preload.js")
-        }
-    });
-    mainWindow.loadURL(path.join(__dirname, 'www', 'index.html'));
-}
-
-app.on('ready', () => {
-    app.name = 'Svelte Template';
-    createWindow();
-});
-
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-      app.quit();
-    }
-});
-
-ipcMain.on('requestSystemInfo', async (event, message) => {
-    console.log(event);
-    console.log(message);
-    const versionChrome = process.versions.chrome;
-    const versionNode = process.versions.node;
-    const versionElectron = process.versions.electron;
-    const result = {
-        chrome: versionChrome,
-        node: versionNode,
-        electron: versionElectron
-    }
-    mainWindow.webContents.send("getSystemInfo", result);
-});
-
-ipcMain.on('requestVersionNumber', async (event, message) => {
-    console.log(event);
-    console.log(message);
-    const version = app.getVersion();
-    const result = {version}
-
-    mainWindow.webContents.send("getVersionNumber", result);
-});
+// @ts-ignore
+app.on("main-window-ready", () => {
+    systemInfo.initIpcMain(ipcMain, mainWindow.mainWindow);
+})
 
 
 ipcMain.on('checkForUpdate', async (event, message) => {
@@ -73,32 +30,32 @@ ipcMain.on('quitAndInstall', async (event, message) => {
 
 
 autoUpdater.on('checking-for-update', () => {
-    mainWindow.webContents.send("checkingForUpdate", null);
+    mainWindow.mainWindow.webContents.send("checkingForUpdate", null);
 });
 autoUpdater.on('error', (err) => {
-    console.log(err);
+    // console.log(err);
 });
 
 autoUpdater.on("update-available", (info) => {
-    console.log(info);
-    mainWindow.webContents.send("updateAvailable", info);
+    // console.log(info);
+    mainWindow.mainWindow.webContents.send("updateAvailable", info);
 });
   
 autoUpdater.on("update-not-available", (info) => {
-    console.log(info)
-    mainWindow.webContents.send("updateNotAvailable", info);
+    // console.log(info)
+    mainWindow.mainWindow.webContents.send("updateNotAvailable", info);
 })
 
 autoUpdater.on('download-progress', (progressObj) => {
-    let log_message = "Download speed: " + progressObj.bytesPerSecond;
-    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-    console.log(log_message);
-    mainWindow.webContents.send("downloadProgress", progressObj);
+    // let log_message = "Download speed: " + progressObj.bytesPerSecond;
+    // log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+    // log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+    // console.log(log_message);
+    mainWindow.mainWindow.webContents.send("downloadProgress", progressObj);
 })
 
 autoUpdater.on("update-downloaded", (info) => {
-    console.log(info);
-    mainWindow.webContents.send("updateDownloaded", info);
+    // console.log(info);
+    mainWindow.mainWindow.webContents.send("updateDownloaded", info);
 });
 
