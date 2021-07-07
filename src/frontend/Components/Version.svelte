@@ -22,20 +22,17 @@
 
     globalThis.api.updaterInfo.receive("checkingForUpdate", (data) => {
         checkingForUpdate = true;
-        console.log("checkingForUpdate");
     });
 
     globalThis.api.updaterInfo.receive("updateAvailable", (data) => {
         checkingForUpdate = false;
         updateAvailable = true;
-        console.log(data);
     });
        
     globalThis.api.updaterInfo.receive("updateNotAvailable", (data) => {
         checkingForUpdate = false;
         updateAvailable = false;
         updateNotAvailable = true;
-        console.log(data);
     });
 
     function startDownloadUpdate() {
@@ -50,8 +47,6 @@
         let log_message = "Download speed: " + data.bytesPerSecond;
         log_message = log_message + ' - Downloaded ' + data.percent + '%';
         log_message = log_message + ' (' + data.transferred + "/" + data.total + ')';
-        // console.log(log_message);
-        // console.log(data);
         downloadMessage = log_message;
     });
 
@@ -59,7 +54,6 @@
         downloading = false;
         updateAvailable = false;
         quitAndInstall = true;
-        // console.log(data);
     });
 
     function install() {

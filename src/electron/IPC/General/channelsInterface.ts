@@ -5,6 +5,10 @@ export interface APIContextBridge {
 
 export interface APIChannels {
     nameAPI: string,
-    validSendChannel: string[],
+    validSendChannel: SendChannels,
     validReceiveChannel: string[]
+}
+
+export interface SendChannels {
+    [key: string]: Function
 }

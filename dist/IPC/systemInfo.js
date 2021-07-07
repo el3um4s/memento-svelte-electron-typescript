@@ -1,28 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.initIpcMain = exports.channels = void 0;
-const electron_1 = require("electron");
 const nameAPI = "systemInfo";
 // to Main
-const validSendChannel = [
-    "requestSystemInfo",
-    "requestVersionNumber",
-];
+const validSendChannel = {
+    "requestSystemInfo": requestSystemInfo
+};
 // from Main
 const validReceiveChannel = [
     "getSystemInfo",
-    "getVersionNumber",
 ];
-exports.channels = {
-    nameAPI, validSendChannel, validReceiveChannel
-};
+exports.channels = { nameAPI, validSendChannel, validReceiveChannel };
 function initIpcMain(ipcMain, mainWindow) {
     if (mainWindow) {
-        ipcMain.on("requestSystemInfo", async (event, message) => {
-            requestSystemInfo(mainWindow, event, message);
-        });
-        ipcMain.on("requestVersionNumber", async (event, message) => {
-            requestVersionNumber(mainWindow, event, message);
+        Object.keys(validSendChannel).forEach(key => {
+            ipcMain.on(key, async (event, message) => {
+                validSendChannel[key](mainWindow, event, message);
+            });
         });
     }
 }
@@ -37,9 +31,4 @@ function requestSystemInfo(mainWindow, event, message) {
         electron: versionElectron
     };
     mainWindow.webContents.send("getSystemInfo", result);
-}
-function requestVersionNumber(mainWindow, event, message) {
-    const version = electron_1.app.getVersion();
-    const result = { version };
-    mainWindow.webContents.send("getVersionNumber", result);
 }

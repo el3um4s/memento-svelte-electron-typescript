@@ -15,7 +15,8 @@ function generateContextBridge(listChannels) {
 }
 exports.generateContextBridge = generateContextBridge;
 function getContextBridge(obj) {
-    let { validSendChannel, validReceiveChannel } = { ...obj };
+    const { validReceiveChannel } = { ...obj };
+    const validSendChannel = getArrayOfValidSendChannel(obj);
     return {
         send: (channel, data) => {
             // whitelist channels
@@ -33,3 +34,8 @@ function getContextBridge(obj) {
     };
 }
 ;
+function getArrayOfValidSendChannel(obj) {
+    const { validSendChannel } = { ...obj };
+    let result = Object.keys(validSendChannel);
+    return result;
+}
