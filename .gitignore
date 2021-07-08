@@ -1,7 +1,5 @@
-/node_modules/
-/dist/www/build
-/dist/index.js
-/dist/preload.js
-/out/
+/node_modules
+/out
+/dist
 
 .DS_Store
