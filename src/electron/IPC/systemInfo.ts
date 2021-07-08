@@ -1,6 +1,6 @@
-import { BrowserWindow } from "electron";
 import { SendChannels } from "./General/channelsInterface";
 import IPC from "./General/IPC";
+import { BrowserWindow } from "electron";
 
 const nameAPI = "systemInfo";
 

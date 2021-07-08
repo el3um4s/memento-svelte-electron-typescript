@@ -1,6 +1,11 @@
 import { contextBridge, ipcRenderer } from "electron";
-import { APIContextBridge, APIChannels } from "./channelsInterface";
+import { APIChannels } from "./channelsInterface";
 import IPC from "./IPC";
+
+interface APIContextBridge {
+  send: (channel: string, data: any) => void;
+  receive: (channel: string, func: (arg0: any) => void) => void;
+}
 
 export function generateContextBridge(listIPC: IPC[]) {
 

@@ -15,5 +15,3 @@ main.onEvent.on("window-created", ()=> {
 
     updaterInfo.initAutoUpdater(autoUpdater, main.window);
 });
-
-

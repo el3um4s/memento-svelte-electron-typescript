@@ -49,7 +49,6 @@ function initAutoUpdater(autoUpdater: AppUpdater, mainWindow: BrowserWindow) {
     autoUpdater.on("update-available", (info: any) => {
         mainWindow.webContents.send("updateAvailable", info);
     });
-
         
     autoUpdater.on('download-progress', (info: any) => {
         mainWindow.webContents.send("downloadProgress", info);
