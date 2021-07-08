@@ -1,8 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.initAutoUpdater = exports.initIpcMain = exports.channels = void 0;
 const electron_1 = require("electron");
 const electron_updater_1 = require("electron-updater");
+const IPC_1 = __importDefault(require("./General/IPC"));
 const nameAPI = "updaterInfo";
 // to Main
 const validSendChannel = {
@@ -20,32 +23,18 @@ const validReceiveChannel = [
     "downloadProgress",
     "updateDownloaded",
 ];
-exports.channels = { nameAPI, validSendChannel, validReceiveChannel };
-function initIpcMain(ipcMain, mainWindow) {
-    if (mainWindow) {
-        Object.keys(validSendChannel).forEach(key => {
-            ipcMain.on(key, async (event, message) => {
-                validSendChannel[key](mainWindow, event, message);
-            });
-        });
+class UpdaterInfo extends IPC_1.default {
+    initAutoUpdater(autoUpdater, mainWindow) {
+        initAutoUpdater(autoUpdater, mainWindow);
     }
 }
-exports.initIpcMain = initIpcMain;
-function requestVersionNumber(mainWindow, event, message) {
-    const version = electron_1.app.getVersion();
-    const result = { version };
-    mainWindow.webContents.send("getVersionNumber", result);
-}
-function checkForUpdate(mainWindow, event, message) {
-    electron_updater_1.autoUpdater.autoDownload = false;
-    electron_updater_1.autoUpdater.checkForUpdates();
-}
-function startDownloadUpdate(mainWindow, event, message) {
-    electron_updater_1.autoUpdater.downloadUpdate();
-}
-function quitAndInstall(mainWindow, event, message) {
-    electron_updater_1.autoUpdater.quitAndInstall();
-}
+const updaterInfo = new UpdaterInfo({
+    nameAPI,
+    validSendChannel,
+    validReceiveChannel
+});
+exports.default = updaterInfo;
+// Enter here the functions for ElectronJS
 function initAutoUpdater(autoUpdater, mainWindow) {
     autoUpdater.on('checking-for-update', () => {
         mainWindow.webContents.send("checkingForUpdate", null);
@@ -64,4 +53,18 @@ function initAutoUpdater(autoUpdater, mainWindow) {
         mainWindow.webContents.send("updateNotAvailable", info);
     });
 }
-exports.initAutoUpdater = initAutoUpdater;
+function requestVersionNumber(mainWindow, event, message) {
+    const version = electron_1.app.getVersion();
+    const result = { version };
+    mainWindow.webContents.send("getVersionNumber", result);
+}
+function checkForUpdate(mainWindow, event, message) {
+    electron_updater_1.autoUpdater.autoDownload = false;
+    electron_updater_1.autoUpdater.checkForUpdates();
+}
+function startDownloadUpdate(mainWindow, event, message) {
+    electron_updater_1.autoUpdater.downloadUpdate();
+}
+function quitAndInstall(mainWindow, event, message) {
+    electron_updater_1.autoUpdater.quitAndInstall();
+}

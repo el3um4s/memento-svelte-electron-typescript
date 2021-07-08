@@ -2,8 +2,8 @@ import { ipcMain } from 'electron';
 import { autoUpdater } from "electron-updater";
 import Main from "./mainWindow";
 
-import * as systemInfo from "./IPC/systemInfo";
-import * as updaterInfo from "./IPC/updaterInfo";
+import systemInfo from './IPC/systemInfo';
+import updaterInfo from './IPC/updaterInfo';
 
 require('electron-reload')(__dirname);
 

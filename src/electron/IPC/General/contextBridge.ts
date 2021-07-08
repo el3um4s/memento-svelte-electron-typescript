@@ -1,7 +1,13 @@
 import { contextBridge, ipcRenderer } from "electron";
 import { APIContextBridge, APIChannels } from "./channelsInterface";
+import IPC from "./IPC";
 
-export function generateContextBridge(listChannels: APIChannels[]) {
+export function generateContextBridge(listIPC: IPC[]) {
+
+  let listChannels: APIChannels[] = [];
+  listIPC.forEach(el => {
+    listChannels.push(el.channels);
+  });
 
   let listAPI: {[key: string]: APIContextBridge} = {};
 
@@ -30,8 +36,7 @@ function getContextBridge(obj: APIChannels): APIContextBridge {
       receive: (channel: string, func: (arg0: any) => void) => {
         if (validReceiveChannel.includes(channel)) {
           // Deliberately strip event as it includes `sender`
-          // @ts-ignore
-          ipcRenderer.on(channel, (event, ...args) => func(...args));
+          ipcRenderer.on(channel, (event, ...args: [any]) => {func(...args);});
         }
       }
   }

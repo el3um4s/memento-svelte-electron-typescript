@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.initIpcMain = exports.channels = void 0;
+const IPC_1 = __importDefault(require("./General/IPC"));
 const nameAPI = "systemInfo";
 // to Main
 const validSendChannel = {
@@ -10,17 +13,13 @@ const validSendChannel = {
 const validReceiveChannel = [
     "getSystemInfo",
 ];
-exports.channels = { nameAPI, validSendChannel, validReceiveChannel };
-function initIpcMain(ipcMain, mainWindow) {
-    if (mainWindow) {
-        Object.keys(validSendChannel).forEach(key => {
-            ipcMain.on(key, async (event, message) => {
-                validSendChannel[key](mainWindow, event, message);
-            });
-        });
-    }
-}
-exports.initIpcMain = initIpcMain;
+const systemInfo = new IPC_1.default({
+    nameAPI,
+    validSendChannel,
+    validReceiveChannel
+});
+exports.default = systemInfo;
+// Enter here the functions for ElectronJS
 function requestSystemInfo(mainWindow, event, message) {
     const versionChrome = process.versions.chrome;
     const versionNode = process.versions.node;

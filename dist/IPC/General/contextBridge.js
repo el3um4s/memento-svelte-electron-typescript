@@ -2,7 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateContextBridge = void 0;
 const electron_1 = require("electron");
-function generateContextBridge(listChannels) {
+function generateContextBridge(listIPC) {
+    let listChannels = [];
+    listIPC.forEach(el => {
+        listChannels.push(el.channels);
+    });
     let listAPI = {};
     listChannels.forEach(el => {
         const api = getContextBridge(el);
@@ -27,8 +31,7 @@ function getContextBridge(obj) {
         receive: (channel, func) => {
             if (validReceiveChannel.includes(channel)) {
                 // Deliberately strip event as it includes `sender`
-                // @ts-ignore
-                electron_1.ipcRenderer.on(channel, (event, ...args) => func(...args));
+                electron_1.ipcRenderer.on(channel, (event, ...args) => { func(...args); });
             }
         }
     };
