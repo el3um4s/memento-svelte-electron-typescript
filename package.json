@@ -1,7 +1,7 @@
 {
   "name": "memento-svelte-electron-typescript",
   "productName": "memento-svelte-electron-typescript",
-  "description": "Memento: how to use Svelte with Electron and TypeScript",
+  "description": "Template to create a desktop app with Svelte, Electron and TypeScript (with electron-updater, electron-reload and electron-builder)",
   "author": "Samuele de Tomasi <samuele@stranianelli.com>",
   "license": "MIT",
   "version": "0.0.8",
