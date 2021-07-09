@@ -1,7 +1,6 @@
 # MEMENTO Svelte Electron Typescript
 
-Template for create a desktop app with Svelte, Electron and TypeScript (with electron-updater, electron-reload and electron-builder)
-
+Template to create a desktop app with Svelte, Electron and TypeScript (with electron-updater, electron-reload and electron-builder)
 
 # Get Started
 
@@ -33,3 +32,10 @@ For publish purpose:
 
 - `npm run out:win`: create an exe file for Windows
 - `npm run publish:win`: publish the app on GitHub
+
+## Notes
+
+I'm blogging about the development process in these posts:
+
+- [Svelte, Electron & TypeScript](https://www.patreon.com/posts/svelte-electron-52952074)
+- [Electron and TypeScript: how to use ipcMain and ipcRenderer](https://www.patreon.com/posts/electron-and-how-53505039)
