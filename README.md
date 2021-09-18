@@ -9,7 +9,7 @@ This is a project template for [Svelte](https://svelte.dev) and [Electron](https
 To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
 
 ```bash
-npx degit el3um4s/memento-svelte-electron-typescript
+npx degit el3um4s/memento-svelte-electron-typescript svelte-app
 cd svelte-app
 ```
 

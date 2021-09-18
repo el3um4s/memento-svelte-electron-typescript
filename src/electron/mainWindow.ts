@@ -35,7 +35,8 @@ class Main {
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
-        enableRemoteModule: true,
+        nativeWindowOpen: true,
+        // enableRemoteModule: true,
         preload: path.join(__dirname, "preload.js")
       }
     });
