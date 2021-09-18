@@ -1,6 +1,6 @@
 # MEMENTO Svelte Electron Typescript
 
-Template to create a desktop app with Svelte, Electron and TypeScript (with electron-updater, electron-reload and electron-builder)
+Template to create a desktop app with Svelte, TailwindCSS, Electron and TypeScript (with electron-updater, electron-reload and electron-builder)
 
 ## Get Started
 

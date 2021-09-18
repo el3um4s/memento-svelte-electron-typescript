@@ -1,0 +1,36 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/** Modify your Tailwind layers etc. here **/
+@layer base {
+  html,
+  body {
+    @apply relative w-full h-full;
+  }
+  body {
+    @apply text-gray-800 m-0 box-border p-4;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  }
+  h1 {
+    @apply text-4xl text-yellow-600 font-bold;
+  }
+  h2 {
+    @apply text-xl;
+  }
+}
+
+@layer components {
+  .btn-orange {
+    @apply py-2 px-4 bg-yellow-500 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-700;
+
+    &:focus {
+      @apply outline-none ring-2 ring-yellow-400 ring-opacity-75;
+    }
+  }
+  .version {
+    color: #ff3e00;
+    @apply font-bold hover:text-yellow-500;
+  }
+}
