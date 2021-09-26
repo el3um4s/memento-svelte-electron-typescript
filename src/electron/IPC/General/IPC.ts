@@ -20,11 +20,20 @@ export default class IPC {
         }
     }
 
-    initIpcMain(ipcMain:IpcMain, mainWindow: BrowserWindow) {
-        if (mainWindow) {
+    async initIpcMain(ipcMain:IpcMain, customWindow: BrowserWindow) {
+        if (customWindow) {
             Object.keys(this.validSendChannel).forEach(key => {
-                ipcMain.on(key, async( event, message) => {
-                    this.validSendChannel[key](mainWindow, event, message);
+                ipcMain.on(key, async ( event, message) => {
+                     try {
+                        if( !!customWindow && customWindow.id === event.sender.id)
+                        { await this.validSendChannel[key](customWindow, event, message); }
+                     } catch (e) {
+                        if( e instanceof TypeError) {
+                            // console.log(e.name, e.message);
+                        } else {
+                            console.log(e);
+                        }
+                     }
                 });
             });
         }

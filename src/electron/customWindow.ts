@@ -1,6 +1,7 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from "path";
 import EventEmitter from 'events';
+import IPC from './IPC/General/IPC';
 
 const appName = "MEMENTO - Svelte, Electron, TypeScript";
 
@@ -10,23 +11,16 @@ const defaultSettings = {
   height: 480
 }
 
-class Main {
+class CustomWindow {
   window!: BrowserWindow;
   settings: {[key: string]: any};
   onEvent: EventEmitter = new EventEmitter();
 
   constructor(settings: {[key: string]: any} | null = null) {
     this.settings = settings ? {...settings} : {...defaultSettings}
-
-    app.on('ready', () => { 
-      this.window = this.createWindow(); 
-      this.onEvent.emit("window-created");
-    });
-    app.on('window-all-closed', this.onWindowAllClosed);
-    app.on('activate', this.onActivate);
   }
 
-  createWindow() {
+  createWindow(url: string) {
     let settings = {...this.settings}
     app.name = appName;
     let window = new BrowserWindow({
@@ -36,31 +30,22 @@ class Main {
         nodeIntegration: false,
         contextIsolation: true,
         nativeWindowOpen: true,
-        // enableRemoteModule: true,
         preload: path.join(__dirname, "preload.js")
       }
     });
 
-    window.loadURL(path.join(__dirname, 'www', 'index.html'));
+    window.loadURL(url);
     window.once('ready-to-show', () => {
       window.show()
     });
 
+    this.window = window;
     return window;
   }
 
-  onWindowAllClosed() {
-    if (process.platform !== 'darwin') {
-      app.quit();
-    }
+  async setIpcMain(api: Array<IPC>) {
+    api.forEach( async (el) => await el.initIpcMain(ipcMain, this.window));
   }
-
-  onActivate() {
-    if (!this.window) {
-      this.createWindow();
-    }
-  }
-
 }
 
-export default Main;
+export default CustomWindow;

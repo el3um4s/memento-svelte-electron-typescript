@@ -7,6 +7,7 @@
   let updateNotAvailable: boolean = false;
   let downloading: boolean = false;
   let quitAndInstall: boolean = false;
+  let isInstalling: boolean = false;
 
   let downloadMessage: string = "";
 
@@ -61,6 +62,7 @@
   function install() {
     globalThis.api.updaterInfo.send("quitAndInstall", null);
     quitAndInstall = false;
+    isInstalling = true;
   }
 </script>
 
@@ -69,7 +71,7 @@
 </div>
 
 <div>
-  {#if !checkingForUpdate && !updateAvailable && !downloading && !quitAndInstall}
+  {#if !checkingForUpdate && !updateAvailable && !downloading && !quitAndInstall && !isInstalling}
     <button on:click={check} class="btn-orange">Check for Update</button>
   {/if}
   {#if checkingForUpdate}
@@ -86,12 +88,17 @@
     <span class="bg-gray-300 text-red-900 message"> Update not available </span>
   {/if}
   {#if downloading}
-    {downloadMessage}
+    <span class="bg-yellow-700 text-yellow-100 message">
+      {downloadMessage.length > 1 ? downloadMessage : "download..."}
+    </span>
   {/if}
   {#if quitAndInstall}
     <button on:click={install} class="btn-orange"
       >The updates are ready. Click to quit and install.</button
     >
+  {/if}
+  {#if isInstalling}
+    <span class="bg-yellow-700 text-yellow-100 message"> Installing... </span>
   {/if}
 </div>
 
