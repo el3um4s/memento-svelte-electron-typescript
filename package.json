@@ -4,7 +4,7 @@
   "description": "Template to create a desktop app with Svelte, Electron and TypeScript (with electron-updater, electron-reload and electron-builder)",
   "author": "Samuele de Tomasi <samuele@stranianelli.com>",
   "license": "MIT",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "main": "dist/index.js",
   "scripts": {
     "nodemon": "nodemon",
