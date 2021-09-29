@@ -6,6 +6,7 @@ import CustomWindow from "./customWindow";
 
 import systemInfo from './IPC/systemInfo';
 import updaterInfo from './IPC/updaterInfo';
+import windowControls from './IPC/windowControls';
 
 require('electron-reload')(__dirname);
 
@@ -22,11 +23,14 @@ app.on('window-all-closed', () => {
 });
 
 async function createMainWindow() {
-    mainWindow = new CustomWindow();
+    const settings = {
+        title: "MEMENTO - Svelte, Tailwind, Electron & TypeScript"
+    };
+    mainWindow = new CustomWindow(settings);   
     const urlPage = path.join(__dirname, 'www', 'index.html');
     mainWindow.createWindow(urlPage);
     
-    await mainWindow.setIpcMain([systemInfo, updaterInfo]);
+    await mainWindow.setIpcMain([systemInfo, updaterInfo, windowControls]);
 
     updaterInfo.initAutoUpdater(autoUpdater, mainWindow.window);
 }

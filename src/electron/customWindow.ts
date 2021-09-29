@@ -8,7 +8,9 @@ const appName = "MEMENTO - Svelte, Electron, TypeScript";
 const defaultSettings = {
   title:  "MEMENTO - Svelte, Electron, TypeScript",
   width: 854,
-  height: 480
+  height: 480,
+  frame: false,
+  backgroundColor: '#FFF'
 }
 
 class CustomWindow {
@@ -17,7 +19,7 @@ class CustomWindow {
   onEvent: EventEmitter = new EventEmitter();
 
   constructor(settings: {[key: string]: any} | null = null) {
-    this.settings = settings ? {...settings} : {...defaultSettings}
+    this.settings = settings ? {...defaultSettings, ...settings} : {...defaultSettings}
   }
 
   createWindow(url: string) {

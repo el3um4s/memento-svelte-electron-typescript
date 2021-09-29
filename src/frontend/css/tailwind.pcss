@@ -4,12 +4,15 @@
 
 /** Modify your Tailwind layers etc. here **/
 @layer base {
+  * {
+    @apply m-0 p-0 border-0 align-baseline;
+  }
   html,
   body {
-    @apply relative w-full h-full;
+    @apply flex relative w-full h-full m-0 box-border text-gray-900;
   }
   body {
-    @apply text-gray-800 m-0 box-border p-4;
+    @apply overflow-y-hidden;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   }
