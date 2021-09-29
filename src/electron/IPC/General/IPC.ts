@@ -1,3 +1,5 @@
+import { toTryAsync } from "@el3um4s/to-try";
+
 import { BrowserWindow, IpcMain } from "electron";
 import { APIChannels, SendChannels } from "./channelsInterface";
 
@@ -24,18 +26,11 @@ export default class IPC {
         if (customWindow) {
             Object.keys(this.validSendChannel).forEach(key => {
                 ipcMain.on(key, async ( event, message) => {
-                     try {
-                        if( !!customWindow && customWindow.id === event.sender.id)
-                        { await this.validSendChannel[key](customWindow, event, message); }
-                     } catch (e) {
-                        if( e instanceof TypeError) {
-                            // console.log(e.name, e.message);
-                        } else {
-                            console.log(e);
-                        }
-                     }
+                    await toTryAsync(() => this.validSendChannel[key](customWindow, event, message), e => catchError(e));
                 });
             });
         }
     }
 }
+
+const catchError = (e:any) =>  {if (e !instanceof TypeError) console.log(e)};
