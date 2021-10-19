@@ -4,7 +4,7 @@
   "description": "Template to create a desktop app with Svelte, Electron and TypeScript (with electron-updater, electron-reload and electron-builder)",
   "author": "Samuele de Tomasi <samuele@stranianelli.com>",
   "license": "MIT",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "main": "dist/index.js",
   "scripts": {
     "nodemon": "nodemon",
@@ -16,9 +16,11 @@
     "publish:win": "rollup -c && tsc && electron-builder build --win --publish always",
     "check-updates": "npx npm-check-updates",
     "check-updates:minor": "npx npm-check-updates --target minor",
-    "check-updates:patch": "npx npm-check-updates --target patch"
+    "check-updates:patch": "npx npm-check-updates --target patch",
+    "test": "npx playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.15.2",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
     "@rollup/plugin-typescript": "^8.2.5",
@@ -27,6 +29,7 @@
     "electron": "^15.0.0",
     "electron-builder": "^22.11.7",
     "nodemon": "^2.0.13",
+    "playwright": "^1.15.2",
     "postcss": "^8.3.8",
     "postcss-load-config": "^3.1.0",
     "rollup": "^2.57.0",
@@ -36,6 +39,7 @@
     "rollup-plugin-postcss": "^4.0.1",
     "rollup-plugin-svelte": "^7.1.0",
     "rollup-plugin-terser": "^7.0.2",
+    "semver": "^6.3.0",
     "svelte": "^3.43.0",
     "svelte-check": "^2.2.6",
     "svelte-preprocess": "^4.9.5",

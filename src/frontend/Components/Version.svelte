@@ -67,7 +67,9 @@
 </script>
 
 <div>
-  App version <span class="version">{version}</span>.
+  App version <span class="version" data-testid="version-number-app"
+    >{version}</span
+  >.
 </div>
 
 <div>

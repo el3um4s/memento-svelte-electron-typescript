@@ -1,4 +1,4 @@
-# MEMENTO Svelte Electron Typescript
+# MEMENTO - Svelte, TailwindCSS, Electron and TypeScript
 
 Template to create a desktop app with Svelte, TailwindCSS, Electron and TypeScript (with electron-updater, electron-reload and electron-builder)
 
@@ -32,6 +32,10 @@ For publish purpose:
 
 - `npm run out:win`: create an exe file for Windows
 - `npm run publish:win`: publish the app on GitHub
+
+For test purpose:
+
+- `npm run test`: test the app
 
 ## Notes
 

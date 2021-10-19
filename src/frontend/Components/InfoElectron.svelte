@@ -12,9 +12,12 @@
 </script>
 
 <div>
-  We are using Node.js <span class="version">{node}</span>, Chromium
-  <span class="version">{chrome}</span>, and Electron
-  <span class="version">{electron}</span>.
+  We are using Node.js <span class="version" data-testid="version-number-nodejs"
+    >{node}</span
+  >, Chromium
+  <span class="version" data-testid="version-number-chrome">{chrome}</span>, and
+  Electron
+  <span class="version" data-testid="version-number-electron">{electron}</span>.
 </div>
 
 <style>

@@ -7,6 +7,10 @@
   export let name: string;
 </script>
 
+<svelte:head>
+  <title>MEMENTO - Svelte, TailwindCSS, Electron and TypeScript</title>
+</svelte:head>
+
 <MainWithTitlebar title="MEMENTO - Svelte + Electron">
   <section class="text-center space-y-6">
     <h1>Hello {name}!</h1>
