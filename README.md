@@ -36,6 +36,7 @@ For publish purpose:
 For test purpose:
 
 - `npm run test`: test the app
+- `npm run test:show-trace`: open the saved testing trace using [Playwright CLI](https://playwright.dev/docs/trace-viewer)
 
 ## Notes
 

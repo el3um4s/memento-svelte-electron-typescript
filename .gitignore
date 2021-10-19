@@ -1,5 +1,7 @@
 /node_modules
 /out
 /dist
+tests/screenshot
+tests/tracing
 
 .DS_Store
