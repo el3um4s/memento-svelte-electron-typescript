@@ -5,6 +5,7 @@
 // https://github.com/cawa-93/vite-electron-builder/blob/7d2df55fd8a0b3a803963d62558f719c9034ba2a/tests/app.spec.js
 // https://github.com/microsoft/playwright/tree/master/tests/electron
 // https://github.com/spaceagetv/electron-playwright-example
+// https://playwright.dev/docs/test-snapshots
 
 import { ElectronApplication, Page, _electron as electron } from 'playwright';
 import { test, expect } from '@playwright/test';
@@ -50,6 +51,7 @@ test.describe('Check Man Page', async () => {
         firstWindow = await electronApp.firstWindow();
         
         await firstWindow.screenshot({ path: 'tests/screenshot/firstWindow.png' });
+        expect(await firstWindow.screenshot()).toMatchSnapshot('firstWindow.png');
     })
 
     test('Check title', async () => {
