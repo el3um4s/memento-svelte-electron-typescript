@@ -1,13 +1,4 @@
-// https://playwright.dev/docs/intro
-// https://playwright.dev/docs/api/class-electron/
-// https://playwright.dev/docs/api/class-electronapplication/
-// https://playwright.dev/docs/api/class-page/
-// https://github.com/cawa-93/vite-electron-builder/blob/7d2df55fd8a0b3a803963d62558f719c9034ba2a/tests/app.spec.js
-// https://github.com/microsoft/playwright/tree/master/tests/electron
-// https://github.com/spaceagetv/electron-playwright-example
-// https://playwright.dev/docs/test-snapshots
-
-import { ElectronApplication, Page, _electron as electron } from 'playwright';
+import { BrowserContext, ElectronApplication, Page, _electron as electron } from 'playwright';
 import { test, expect } from '@playwright/test';
 import semver from 'semver';
 
@@ -42,7 +33,7 @@ test('Launch electron app', async() => {
 test.describe('Check Man Page', async () => {
     let electronApp: ElectronApplication;
     let firstWindow: Page;
-    let context;
+    let context: BrowserContext;
 
     test.beforeAll( async () => {
         electronApp = await electron.launch({ args: ["."] });
