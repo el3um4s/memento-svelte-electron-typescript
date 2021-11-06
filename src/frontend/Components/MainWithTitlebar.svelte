@@ -1,9 +1,5 @@
 <script lang="ts">
-  import IconMinimize from "./Icons/IconMinimize.svelte";
-  import IconMaximize from "./Icons/IconMaximize.svelte";
-  import IconUnmaximize from "./Icons/IconUnmaximize.svelte";
-  import IconClose from "./Icons/IconClose.svelte";
-
+  import { TitleBar } from "@el3um4s/svelte-titlebar";
   export let title: string = "Title";
 
   let outerW = globalThis.outerWidth - 8;
@@ -29,85 +25,41 @@
 
 <svelte:window bind:outerWidth={outerW} />
 
-<header>
-  <div class="drag-region">
-    <div class="window-title">
-      <span>{title}</span>
-    </div>
-    <div class="window-controls">
-      <div class="button" on:click={minimize}>
-        <IconMinimize />
-      </div>
-      {#if isMaximized}
-        <div class="button" on:click={unmaximize}>
-          <IconUnmaximize />
-        </div>
-      {:else}
-        <div class="button" on:click={maximize}>
-          <IconMaximize />
-        </div>
-      {/if}
-      <div class="button" on:click={close}>
-        <IconClose />
-      </div>
-    </div>
-  </div>
-</header>
-
 <main>
-  <slot />
+  <TitleBar
+    {title}
+    {isMaximized}
+    on:clickMinimize={minimize}
+    on:clickUnmaximize={unmaximize}
+    on:clickMaximize={maximize}
+    on:clickClose={close}
+  />
+  <div class="page">
+    <slot />
+  </div>
 </main>
 
 <style lang="postcss">
-  header {
-    @apply block fixed w-full h-8 p-1 bg-gray-50 text-red-900 font-bold;
-  }
-
   main {
-    @apply mt-8 p-5 overflow-y-auto w-full border border-red-900;
+    @apply w-full;
+    --background-color: theme("colors.gray.50");
+    --text-color: theme("colors.red.900");
+  }
+  .page {
+    @apply p-5 overflow-y-auto w-full border border-red-900;
     height: calc(100% - theme("spacing.8"));
   }
 
-  .drag-region {
-    @apply w-full h-full;
-    grid-template-columns: auto 138px;
-    -webkit-app-region: drag;
-  }
-
-  .window-controls {
-    @apply grid grid-cols-3 absolute top-0 right-2 h-full gap-2 select-none;
-    -webkit-app-region: no-drag;
-  }
-
-  .button {
-    @apply row-span-1 flex justify-center items-center w-full h-full;
-  }
-
-  .button:hover {
-    @apply bg-red-600;
-  }
-
-  .window-title {
-    @apply flex items-center left-2 overflow-hidden font-sans text-base;
-  }
-
-  .window-title span {
-    @apply overflow-hidden overflow-ellipsis whitespace-nowrap leading-6;
-  }
-
-  main::-webkit-scrollbar {
+  .page::-webkit-scrollbar {
     @apply w-4;
   }
 
-  main::-webkit-scrollbar-track {
-    @apply bg-red-900;
+  .page::-webkit-scrollbar-track {
+    @apply border-2 border-solid;
+    background-color: var(--background-color);
+    border-color: var(--text-color);
   }
-
-  main::-webkit-scrollbar-thumb {
-    @apply bg-red-500 border-2 border-red-900 border-solid;
-  }
-
-  main::-webkit-scrollbar-thumb:hover {
-    @apply bg-red-300;
+  .page::-webkit-scrollbar-thumb {
+    background-color: var(--text-color);
   }
 </style>
