@@ -12,6 +12,9 @@ require('electron-reload')(__dirname);
 
 let mainWindow: CustomWindow;
 
+// app.commandLine.appendSwitch('disable-gpu');
+// app.commandLine.appendArgument('disable-gpu');
+
 app.on('ready', async () => {
     await createMainWindow();
 });
