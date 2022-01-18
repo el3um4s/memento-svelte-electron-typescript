@@ -1,5 +1,7 @@
 # MEMENTO - Svelte, TailwindCSS, Electron and TypeScript
 
+![screenshot-01](github-images/screenshot-01.png)
+
 Template to create a desktop app with Svelte, TailwindCSS, Electron and TypeScript (with electron-updater, electron-reload and electron-builder)
 
 ## Get Started
@@ -19,7 +21,7 @@ Then install the dependencies with
 npm install
 ```
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
+_Note that you will need to have [Node.js](https://nodejs.org) installed._
 
 ## Command
 
